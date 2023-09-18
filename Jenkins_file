@@ -27,6 +27,7 @@ pipeline {
         stage('Deploy to render') {
             steps {
                 echo 'Deploying to render'
+                sh 'curl https://ipproject1.onrender.com'
             }
         }
     }
