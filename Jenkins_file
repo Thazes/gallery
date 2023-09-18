@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+    tools {
+        nodejs "nodeJS"
+    }
+    
+    stages {
+        stage('Clone repository') {
+            steps {
+                echo 'cloning the repo'
+                git 'https://github.com/Thazes/gallery'
+            }
+        }
+        stage('Install packages') {
+            steps {
+               
+                echo 'Installing packages'
+                sh 'npm install'
+            }
+        }
+        stage('Testing the repo') {
+            steps {
+                echo 'Testing the project'
+                sh "npm test"
+            }
+        }
+        stage('Deploy to render') {
+            steps {
+                echo 'Deploying to render'
+            }
+        }
+    }
+
+    post {
+        success {
+            slackSend(
+                channel: "#humphrey_ip1", color: "good", 
+                message: "Build Succeeded for ${currentBuild.fullDisplayName}"
+               
+                )
+                emailext to: "humphrey.matagaro@student.moringaschool.com",
+                         subject: "Build Succeeded for ${currentBuild.fullDisplayName}",
+                         body: "Build ${currentBuild.fullDisplayName} has succeeded."
+        
+        }
+        failure {
+            script {
+                currentBuild.result = "FAILURE"
+            }
+            emailext to: "humphrey.matagaro@student.moringaschool.com",
+                     subject: "Build Failed for ${currentBuild.fullDisplayName}",
+                     body: "Build ${currentBuild.fullDisplayName} has failed.",
+                     attachLog: true
+
+            slackSend(
+               
+                channel: "#humphrey_ip1", color: "danger", 
+                message: "Build ${currentBuild.fullDisplayName} has failed"
+                
+                )
+        }
+    }
+}
