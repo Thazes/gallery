@@ -40,7 +40,7 @@ pipeline {
                 )
                 emailext to: "humphrey.matagaro@student.moringaschool.com",
                          subject: "Build Succeeded for ${currentBuild.fullDisplayName}",
-                         body: "Build ${currentBuild.fullDisplayName} has succeeded."
+                         body: "Build ${currentBuild.fullDisplayName} has succeeded well."
         
         }
         failure {
