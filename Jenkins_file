@@ -45,7 +45,7 @@ pipeline {
             slackSend(
                 //for slack we put channel name and green colour for success
                 channel: "#humphrey_ip1", color: "good", 
-                message: "Build Succeeded for ${currentBuild.fullDisplayName}"
+                message: "Build Succeeded for ${currentBuild.fullDisplayName} websiteUrl:https://ipproject1.onrender.com"
                
                 )
                 //for email we put recipeint and success message
